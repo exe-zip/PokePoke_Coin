@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CoinThrow : MonoBehaviour
 {
-    Rigidbody rigit;
+    Rigidbody rg;
     Vector3 startPoint;
     Vector3 deltaPoint;
     Vector3 throwVec;
@@ -25,7 +25,7 @@ public class CoinThrow : MonoBehaviour
     public int coinState;
 
     public void ResetTF(){
-        rigit.isKinematic = true;
+        rg.isKinematic = true;
 
         transform.position = defPos;
         transform.rotation = defRot;
@@ -33,17 +33,19 @@ public class CoinThrow : MonoBehaviour
         coinState = 0;
 
         throwFlag = false;
+
+        GetComponent<MeshCollider>().enabled = true;
     }
     void Start()
     {
-        rigit = GetComponent<Rigidbody>();
-        rigit.maxAngularVelocity = 1000f;
+        rg = GetComponent<Rigidbody>();
+        rg.maxAngularVelocity = 1000f;
         
 
         defPos = transform.position;
         defRot = transform.rotation;
         
-        rigit.isKinematic = true;
+        rg.isKinematic = true;
 
         forceDebuff = 0.0001f;
         upForce = 0.008f;
@@ -55,7 +57,7 @@ public class CoinThrow : MonoBehaviour
 
     void OnMouseDown(){
         if(!throwFlag){
-            rigit.isKinematic = true;
+            rg.isKinematic = true;
 
             torqueBuff = Random.Range(1f,2f);
 
@@ -83,13 +85,13 @@ public class CoinThrow : MonoBehaviour
     }
     void OnMouseUp(){
         if(!throwFlag){
-            if(throwForce.z > 0.0015f){
-                rigit.isKinematic = false;
+            if(throwForce.z > 0.0005f){
+                rg.isKinematic = false;
 
                 throwFlag = true;
 
-                rigit.AddForce(throwForce, ForceMode.Impulse);
-                rigit.AddTorque(torqueForce, ForceMode.VelocityChange);
+                rg.AddForce(throwForce, ForceMode.Impulse);
+                rg.AddTorque(torqueForce, ForceMode.VelocityChange);
             }
             else{
                 ResetTF();
@@ -110,12 +112,13 @@ public class CoinThrow : MonoBehaviour
         }
 
         if(deltaStop > 100f){
+            GetComponent<MeshCollider>().enabled = false;
             if(transform.up.y > 0f){
-                rigit.isKinematic = true;
+                rg.isKinematic = true;
                 coinState = 1;
             }
             else{
-                rigit.isKinematic =true;
+                rg.isKinematic =true;
                 coinState = 2;
             }
         }

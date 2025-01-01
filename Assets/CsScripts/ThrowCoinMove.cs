@@ -14,7 +14,7 @@ public class ThrowCoinMove : MonoBehaviour
     void Update()
     {
         if(this.GetComponent<CoinThrow>().coinState > 0 && this.GetComponent<CoinThrow>().throwFlag){
-            transform.position += (CM.GetComponent<CoinManager>().coinOffset - transform.position) * 0.05f;
+            transform.position += (CM.GetComponent<CoinManager>().coinOffset - transform.position) * 0.1f;
         }
     }
 }
