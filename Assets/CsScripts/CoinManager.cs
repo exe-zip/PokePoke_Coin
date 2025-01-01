@@ -13,6 +13,15 @@ public class CoinManager : MonoBehaviour
 
     public int setCount;
 
+    public void SetCountPlus(){
+        setCount++;
+    }
+    public void SetcountMinus(){
+        if(setCount > 1){
+            setCount--;
+        }
+    }
+
     public void CoinReset(){
         coinOffset = new Vector3(-0.38f, 1f, 0.2f);
         coinCount = 0;
