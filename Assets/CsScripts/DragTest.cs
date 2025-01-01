@@ -5,10 +5,10 @@ using UnityEngine;
 public class DragTest : MonoBehaviour
 {
     float objPosZ;
+    
     void Start()
     {
-        objPosZ = transform.position.z;  
-        Debug.Log(objPosZ);     
+        objPosZ = transform.position.z;   
     }
 
    void OnMouseDrag()
@@ -21,6 +21,6 @@ public class DragTest : MonoBehaviour
     }
     void Update()
     {
-        
+
     }
 }

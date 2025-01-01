@@ -4,28 +4,50 @@ using UnityEngine;
 
 public class CoinThrow : MonoBehaviour
 {
-    float objPosZ;
-    bool dragflag;
+    Rigidbody rigit;
+    Vector3 startPoint;
+    Vector3 deltaPoint;
+    Vector3 throwVec;
+    Vector3 throwForce;
+    Vector3 torqueVec;
+    Vector3 torqueForce;
+    [SerializeField]
+    float forceDebuff;
+    float torqueBuff;
     void Start()
     {
-        objPosZ = transform.position.z;  
-        dragflag = false; 
+        rigit = GetComponent<Rigidbody>();
+        rigit.isKinematic = true;
+        forceDebuff = 0.4f;
+        torqueBuff = 10f;
     }
 
     void OnMouseDown(){
-        GetComponent<Rigidbody>().isKinematic = true;
-    }
+        rigit.isKinematic = true;
 
-    void OnMouseUp(){
-        GetComponent<Rigidbody>().isKinematic = false;
+        startPoint = Input.mousePosition;
     }
     void OnMouseDrag()
     {
         Vector3 objPos = Camera.main.WorldToScreenPoint(transform.position);
-
         Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, objPos.z);
-
+        
         transform.position = Camera.main.ScreenToWorldPoint(mousePos);
+
+        startPoint = Input.mousePosition;
+    }
+    void OnMouseUp(){
+        rigit.isKinematic = false;
+
+        deltaPoint = Input.mousePosition;
+        throwVec = (deltaPoint - startPoint) * forceDebuff;
+        throwForce = new Vector3(throwVec.x, throwVec.y, throwVec.y);
+
+        torqueVec = (deltaPoint - startPoint) * torqueBuff;
+        torqueForce = new Vector3(torqueVec.y, torqueVec.x, torqueVec.z);
+
+        rigit.AddForce(throwForce, ForceMode.Impulse);
+        rigit.AddTorque(torqueForce, ForceMode.Acceleration);
     }
     void Update()
     {
