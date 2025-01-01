@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CoinThrow : MonoBehaviour
 {
+    [SerializeField]
+    GameObject CountUI;
     Rigidbody rg;
     Vector3 startPoint;
     Vector3 deltaPoint;
@@ -25,6 +27,8 @@ public class CoinThrow : MonoBehaviour
     public int coinState;
 
     public void ResetTF(){
+        CountUI.SetActive(true);
+
         rg.isKinematic = true;
 
         transform.position = defPos;
@@ -86,6 +90,8 @@ public class CoinThrow : MonoBehaviour
     void OnMouseUp(){
         if(!throwFlag){
             if(throwForce.z > 0.0005f){
+                CountUI.SetActive(false);
+
                 rg.isKinematic = false;
 
                 throwFlag = true;
