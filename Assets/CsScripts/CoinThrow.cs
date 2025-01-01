@@ -45,7 +45,7 @@ public class CoinThrow : MonoBehaviour
         
         rigit.isKinematic = true;
 
-        forceDebuff = 0.0003f;
+        forceDebuff = 0.0001f;
         upForce = 0.008f;
 
         coinState = 0;
@@ -57,7 +57,7 @@ public class CoinThrow : MonoBehaviour
         if(!throwFlag){
             rigit.isKinematic = true;
 
-            torqueBuff = Random.Range(2f,3f);
+            torqueBuff = Random.Range(1f,2f);
 
             startPoint = Input.mousePosition;
 
@@ -109,7 +109,7 @@ public class CoinThrow : MonoBehaviour
             deltaStop = 0f;
         }
 
-        if(deltaStop > 500f){
+        if(deltaStop > 100f){
             if(transform.up.y > 0f){
                 rigit.isKinematic = true;
                 coinState = 1;
