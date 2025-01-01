@@ -34,17 +34,17 @@ public class CoinThrow : MonoBehaviour
         
         transform.position = Camera.main.ScreenToWorldPoint(mousePos);
 
-        startPoint = Input.mousePosition;
-    }
-    void OnMouseUp(){
-        rigit.isKinematic = false;
-
         deltaPoint = Input.mousePosition;
         throwVec = (deltaPoint - startPoint) * forceDebuff;
         throwForce = new Vector3(throwVec.x, throwVec.y, throwVec.y);
 
         torqueVec = (deltaPoint - startPoint) * torqueBuff;
         torqueForce = new Vector3(torqueVec.y, torqueVec.x, torqueVec.z);
+
+        startPoint = Input.mousePosition;
+    }
+    void OnMouseUp(){
+        rigit.isKinematic = false;
 
         rigit.AddForce(throwForce, ForceMode.Impulse);
         rigit.AddTorque(torqueForce, ForceMode.Acceleration);
