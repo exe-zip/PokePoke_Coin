@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CoinThrow : MonoBehaviour
@@ -17,8 +18,13 @@ public class CoinThrow : MonoBehaviour
     float upForce;
     float forceDebuff;
     float torqueBuff;
+    [SerializeField]
+    float deltaStop;
+    [SerializeField]
+    int coinState;
 
     void ResetTF(){
+        rigit.isKinematic = true;
         transform.position = defPos;
         transform.rotation = defRot;
     }
@@ -35,12 +41,14 @@ public class CoinThrow : MonoBehaviour
 
         forceDebuff = 0.0003f;
         upForce = 0.008f;
+
+        coinState = 0;
     }
 
     void OnMouseDown(){
         rigit.isKinematic = true;
 
-        torqueBuff = Random.Range(2f,4f);
+        torqueBuff = Random.Range(2f,3f);
 
         startPoint = Input.mousePosition;
 
@@ -76,6 +84,25 @@ public class CoinThrow : MonoBehaviour
     {
         if(transform.position.y < -1f){
             ResetTF();
+        }
+
+        if(transform.position.y < 0.01f && transform.position.y > 0f){
+            deltaStop++;
+        }
+        else{
+            deltaStop = 0f;
+        }
+        
+        if(deltaStop > 500f){
+            if(transform.up.y > 0f){
+                coinState = 1;
+            }
+            else{
+                coinState = 2;
+            }
+        }
+        else{
+            coinState = 0;
         }
     }
 }
