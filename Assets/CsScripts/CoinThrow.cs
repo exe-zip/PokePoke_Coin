@@ -15,18 +15,24 @@ public class CoinThrow : MonoBehaviour
     Vector3 defPos;
     Vector3 objPos;
     Quaternion defRot;
+    public bool throwFlag;
     float upForce;
     float forceDebuff;
     float torqueBuff;
     [SerializeField]
     float deltaStop;
     [SerializeField]
-    int coinState;
+    public int coinState;
 
-    void ResetTF(){
+    public void ResetTF(){
         rigit.isKinematic = true;
+
         transform.position = defPos;
         transform.rotation = defRot;
+
+        coinState = 0;
+
+        throwFlag = false;
     }
     void Start()
     {
@@ -43,41 +49,51 @@ public class CoinThrow : MonoBehaviour
         upForce = 0.008f;
 
         coinState = 0;
+
+        throwFlag = false;
     }
 
     void OnMouseDown(){
-        rigit.isKinematic = true;
+        if(!throwFlag){
+            rigit.isKinematic = true;
 
-        torqueBuff = Random.Range(2f,3f);
+            torqueBuff = Random.Range(2f,3f);
 
-        startPoint = Input.mousePosition;
+            startPoint = Input.mousePosition;
 
-        objPos = Camera.main.WorldToScreenPoint(transform.position);
+            objPos = Camera.main.WorldToScreenPoint(transform.position);
+        }
     }
     void OnMouseDrag()
     {
-        Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, objPos.z);
+        if(!throwFlag){
+            Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, objPos.z);
         
-        transform.position = Camera.main.ScreenToWorldPoint(mousePos);
+            transform.position = Camera.main.ScreenToWorldPoint(mousePos);
 
-        deltaPoint = Input.mousePosition;
-        throwVec = (deltaPoint - startPoint) * forceDebuff;
-        throwForce = new Vector3(throwVec.x, upForce, throwVec.y);
+            deltaPoint = Input.mousePosition;
+            throwVec = (deltaPoint - startPoint) * forceDebuff;
+            throwForce = new Vector3(throwVec.x, upForce, throwVec.y);
 
-        torqueVec = (deltaPoint - startPoint) * torqueBuff;
-        torqueForce = new Vector3(torqueVec.y, torqueVec.x, torqueVec.z);
+            torqueVec = (deltaPoint - startPoint) * torqueBuff;
+            torqueForce = new Vector3(torqueVec.y, torqueVec.x, torqueVec.z);
 
-        startPoint = Input.mousePosition;
+            startPoint = Input.mousePosition;
+        }
     }
     void OnMouseUp(){
-        Debug.Log(throwForce.y);
-        if(throwForce.z > 0.0015f){
-            rigit.isKinematic = false;
-            rigit.AddForce(throwForce, ForceMode.Impulse);
-            rigit.AddTorque(torqueForce, ForceMode.VelocityChange);
-        }
-        else{
-            ResetTF();
+        if(!throwFlag){
+            if(throwForce.z > 0.0015f){
+                rigit.isKinematic = false;
+
+                throwFlag = true;
+
+                rigit.AddForce(throwForce, ForceMode.Impulse);
+                rigit.AddTorque(torqueForce, ForceMode.VelocityChange);
+            }
+            else{
+                ResetTF();
+            }
         }
     }
     void Update()
@@ -92,17 +108,16 @@ public class CoinThrow : MonoBehaviour
         else{
             deltaStop = 0f;
         }
-        
+
         if(deltaStop > 500f){
             if(transform.up.y > 0f){
+                rigit.isKinematic = true;
                 coinState = 1;
             }
             else{
+                rigit.isKinematic =true;
                 coinState = 2;
             }
-        }
-        else{
-            coinState = 0;
         }
     }
 }
