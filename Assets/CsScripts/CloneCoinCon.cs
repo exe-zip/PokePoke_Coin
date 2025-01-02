@@ -8,6 +8,8 @@ public class CloneCoinCon : MonoBehaviour
     bool endToss;
     [SerializeField]
     GameObject CM;
+    [SerializeField]
+    GameObject UIM;
     int coinNum;
     bool onceFlag;
     MeshCollider coinCollider;
@@ -16,6 +18,7 @@ public class CloneCoinCon : MonoBehaviour
         coinCollider = GetComponent<MeshCollider>();
 
         CM = GameObject.Find("CoinManager");
+        UIM =  GameObject.Find("UIManager");
 
         endToss = false;
         onceFlag = true;
@@ -49,6 +52,12 @@ public class CloneCoinCon : MonoBehaviour
             }
 
             if(onceFlag){
+                if(transform.up.y > 0f){
+                    UIM.GetComponent<CoinCount>().CountUp1();
+                }
+                else{
+                    UIM.GetComponent<CoinCount>().CountUp2();
+                }
                 CM.GetComponent<CoinManager>().CountPlus(transform.up.y > 0f);
                 onceFlag = false;
             }

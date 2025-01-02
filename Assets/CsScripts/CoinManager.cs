@@ -12,13 +12,13 @@ public class CoinManager : MonoBehaviour
     public Vector3 coinOffset;
     public int coinCount;
     bool onceFlag;
-    bool miskyMode;
-    bool miskyFlag;
+    bool mistyMode;
+    bool mistyFlag;
 
     public int setCount;
 
-    public void MiskyBool(){
-        miskyMode = !miskyMode;
+    public void MistyBool(){
+        mistyMode = !mistyMode;
     }
 
     public void SetCountPlus(){
@@ -34,11 +34,11 @@ public class CoinManager : MonoBehaviour
         coinOffset = new Vector3(-0.38f, 1f, 0.2f);
         coinCount = 0;
         onceFlag = true;
-        if(miskyMode)setCount = 1;
+        if(mistyMode)setCount = 1;
     }
 
     public void CountPlus(bool side){
-        if(miskyMode && side){
+        if(mistyMode && side){
             setCount++;
             coinCount++;
         }
@@ -51,22 +51,22 @@ public class CoinManager : MonoBehaviour
     {
         CoinReset();
         setCount = 1;
-        miskyMode = false;
-        miskyFlag = true;
+        mistyMode = false;
+        mistyFlag = true;
     }
 
     void Update()
     {
-        if(miskyMode && miskyFlag){
+        if(mistyMode && mistyFlag){
             setCount = 1;
-            miskyFlag = false;
+            mistyFlag = false;
         }
-        else if(!miskyMode && !miskyFlag){
-            miskyFlag = true;
+        else if(!mistyMode && !mistyFlag){
+            mistyFlag = true;
             countUI.SetActive(true);
         }
 
-        if(miskyMode){
+        if(mistyMode){
             countUI.SetActive(false);
             if(mainCoin.GetComponent<CoinThrow>().coinState == 1 && onceFlag){
                 setCount++;

@@ -8,7 +8,11 @@ public class CoinThrow : MonoBehaviour
     [SerializeField]
     GameObject CountUI;
     [SerializeField]
-    GameObject MiskyUI;
+    GameObject MistyUI;
+    [SerializeField]
+    GameObject CoinUI;
+    [SerializeField]
+    GameObject UIM;
     Rigidbody rg;
     Vector3 startPoint;
     Vector3 deltaPoint;
@@ -30,7 +34,8 @@ public class CoinThrow : MonoBehaviour
 
     public void ResetTF(){
         CountUI.SetActive(true);
-        MiskyUI.SetActive(true);
+        MistyUI.SetActive(true);
+        CoinUI.SetActive(false);
 
         rg.isKinematic = true;
 
@@ -94,7 +99,8 @@ public class CoinThrow : MonoBehaviour
         if(!throwFlag){
             if(throwForce.z > 0.0003f){
                 CountUI.SetActive(false);
-                MiskyUI.SetActive(false);
+                MistyUI.SetActive(false);
+                CoinUI.SetActive(true);
 
                 rg.isKinematic = false;
 
@@ -126,10 +132,12 @@ public class CoinThrow : MonoBehaviour
             if(transform.up.y > 0f){
                 rg.isKinematic = true;
                 coinState = 1;
+                UIM.GetComponent<CoinCount>().CountUp1();
             }
             else{
                 rg.isKinematic =true;
                 coinState = 2;
+                UIM.GetComponent<CoinCount>().CountUp2();
             }
         }
     }
