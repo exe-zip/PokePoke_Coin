@@ -7,6 +7,8 @@ public class CoinThrow : MonoBehaviour
 {
     [SerializeField]
     GameObject CountUI;
+    [SerializeField]
+    GameObject MiskyUI;
     Rigidbody rg;
     Vector3 startPoint;
     Vector3 deltaPoint;
@@ -28,6 +30,7 @@ public class CoinThrow : MonoBehaviour
 
     public void ResetTF(){
         CountUI.SetActive(true);
+        MiskyUI.SetActive(true);
 
         rg.isKinematic = true;
 
@@ -89,8 +92,9 @@ public class CoinThrow : MonoBehaviour
     }
     void OnMouseUp(){
         if(!throwFlag){
-            if(throwForce.z > 0.0005f){
+            if(throwForce.z > 0.0003f){
                 CountUI.SetActive(false);
+                MiskyUI.SetActive(false);
 
                 rg.isKinematic = false;
 

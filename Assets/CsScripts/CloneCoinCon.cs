@@ -49,7 +49,7 @@ public class CloneCoinCon : MonoBehaviour
             }
 
             if(onceFlag){
-                CM.GetComponent<CoinManager>().CountPlus();
+                CM.GetComponent<CoinManager>().CountPlus(transform.up.y > 0f);
                 onceFlag = false;
             }
 
